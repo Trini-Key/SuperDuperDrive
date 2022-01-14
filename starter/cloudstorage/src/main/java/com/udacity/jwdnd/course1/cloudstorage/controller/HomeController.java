@@ -1,9 +1,11 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 
-import com.udacity.jwdnd.course1.cloudstorage.model.HomeForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.File;
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,25 +24,30 @@ public class HomeController {
     private FileService fileService;
     private NoteService noteService;
     private UserService userService;
-    private EncryptionService encryptionService;
+    private final EncryptionService encryptionService;
     private HashService hashService;
+    private File file;
+    private Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
     public HomeController(EncryptionService encryptionService) {
         this.encryptionService = encryptionService;
     }
 
     @GetMapping
-    public String getHome(){
+    public String getHome() {
         return "home";
     }
 
     @PostMapping
-    public String uploadFile(@RequestParam("fileUpload")
-                             MultipartFile fileUpload, Model model) throws IOException {
+    public String handleFileUploadFile(@RequestParam("fileUpload") MultipartFile fileUpload, Model model) throws IOException {
         InputStream fis = fileUpload.getInputStream();
-//        this.fileService.addFile(homeForm);
-//        homeForm.setFilename("");
-        model.addAttribute("files", this.fileService.getAllFiles());
+        file.setFilename(fileUpload.getName());
+        file.setContentype(fileUpload.getContentType());
+        file.setFiledata(fileUpload.getBytes());
+        file.setFilesize(String.valueOf(fileUpload.getSize()));
+        Integer userID = userService.getUserId((String) auth.getPrincipal());
+        file.setUserId(userID);
+        fileService.insertFile(file);
         return "home";
     }
 }

@@ -1,10 +1,5 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.sql.Blob;
-
 public class File {
 
     private Integer fileId;
@@ -46,23 +41,23 @@ public class File {
         return filename;
     }
 
-    public void setFilename(MultipartFile mpFile) {
-        this.filename = mpFile.getName();
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public String getContentype() {
         return contentype;
     }
 
-    public void setContentype(MultipartFile mpFile) {
-        this.contentype = mpFile.getContentType();
+    public void setContentype(String contentType) {
+        this.contentype = contentType;
     }
 
     public String getFilesize() {
         return filesize;
     }
 
-    public void setFilesize(String mpFile) {
+    public void setFilesize(String filesize) {
         this.filesize = filesize;
     }
 

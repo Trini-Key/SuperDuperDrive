@@ -4,6 +4,7 @@ import com.udacity.jwdnd.course1.cloudstorage.mapper.FileMapper;
 import com.udacity.jwdnd.course1.cloudstorage.mapper.UserMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.HomeForm;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -18,11 +19,15 @@ public class FileService {
     }
 
     @PostConstruct
-    public void postConstruct(){System.out.println("Creating FileService Bean");}
+    public void postConstruct() {System.out.println("Creating FileService Bean"); }
 
-    public List<File> getAllFiles(){
-        return fileMapper.getAllFiles();
+    public String[] getUserFiles(Integer userId){
+        return fileMapper.getUserFiles(userId);
     }
 
     public File getFile(String filename) { return fileMapper.getFile(filename); }
+
+    public int insertFile(File file) { return fileMapper.insertFile(file); }
+
+    public void deleteFile(String filename) { fileMapper.deleteFile(filename); }
 }
