@@ -1,12 +1,14 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.NoteMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.HomeForm;
+import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+@Service
 public class NoteService {
     private NoteMapper noteMapper;
 
@@ -19,9 +21,9 @@ public class NoteService {
         System.out.println("Creating MessageService Bean");
     }
 
-    public void addNote(HomeForm homeForm){
+    public void addNote(FileForm fileForm){
         Note newNote = new Note();
-        newNote.setNoteTitle(homeForm.getNoteTitle());
+//        newNote.setNoteTitle(fileForm.getNoteTitle()); create a noteForm model0
         noteMapper.insertNote(newNote);
     }
 
