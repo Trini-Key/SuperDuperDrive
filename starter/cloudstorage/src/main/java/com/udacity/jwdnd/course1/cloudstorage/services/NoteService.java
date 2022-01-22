@@ -1,8 +1,8 @@
 package com.udacity.jwdnd.course1.cloudstorage.services;
 
 import com.udacity.jwdnd.course1.cloudstorage.mapper.NoteMapper;
-import com.udacity.jwdnd.course1.cloudstorage.model.FileForm;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class NoteService {
+    @Autowired
     private NoteMapper noteMapper;
 
     public NoteService(NoteMapper noteMapper) {
@@ -18,17 +19,27 @@ public class NoteService {
 
     @PostConstruct
     public void postConstruct(){
-        System.out.println("Creating MessageService Bean");
+        System.out.println("Creating NoteService Bean");
     }
 
-    public void addNote(FileForm fileForm){
-        Note newNote = new Note();
-//        newNote.setNoteTitle(fileForm.getNoteTitle()); create a noteForm model0
-        noteMapper.insertNote(newNote);
+    public int addNote(Note note) {
+        return noteMapper.insertNote(note);
     }
 
-    public List<Note> getNoteHistory(){
-        return noteMapper.getAllNotes();
+    public List<String> getNoteHistory(Integer userId) {
+        return noteMapper.getUserNoteTitles(userId);
+    }
+
+    public List<Note> getNotes(Integer userId) {
+        return noteMapper.getAllNotes(userId);
+    }
+
+    public void deleteNote(String noteTitle){
+        noteMapper.deleteNote(noteTitle);
+    }
+
+    public Note getNote(String noteTitle){
+        return noteMapper.getNote(noteTitle);
     }
 
 }
