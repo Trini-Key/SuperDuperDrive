@@ -54,19 +54,18 @@ public class FileController {
         file.setUserId(userid);
 
         String[] files = fileService.getUserFiles(userid);
-        for (String ufile: files){
-            if (file.getFilename().equals(ufile)){
+        for (String ufile: files) {
+            if (file.getFilename().equals(ufile)) {
                 model.addAttribute("otherError", "that file already exists. Your changes were not saved.");
                 return "result";
             }
         }
-            System.out.println("the value of fis is " + fis);
-        if( file.getFilename() != null || !file.getFilename().equals(" ") || !file.getFilename().equals("")){
+
+        if ( file.getFilename() != null || !file.getFilename().equals(" ") || !file.getFilename().equals("")) {
             fileService.insertFile(file);
             model.addAttribute("files", files);
-//        model.addAttribute("file", file.getFilename());
             model.addAttribute("success", "Your changes were successfully saved.");
-        }else{
+        } else {
             model.addAttribute("otherError", "No file Chosen. Select a file and try again.");
         }
         return "result";
@@ -92,7 +91,6 @@ public class FileController {
     private String deleteFile(@PathVariable(name = "filename") String filename, RedirectAttributes redirectAttributes){
         fileService.deleteFile(filename);
         redirectAttributes.addFlashAttribute("tab", "nav-files-tab");
-        redirectAttributes.addFlashAttribute("success", true);
         return "redirect:/home";
     }
 }
