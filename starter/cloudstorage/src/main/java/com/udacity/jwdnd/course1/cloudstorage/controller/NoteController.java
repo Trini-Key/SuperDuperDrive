@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.InputStream;
 import java.util.List;
@@ -39,15 +37,18 @@ public class NoteController {
     }
 
     @PostMapping
-    public String addNewNote(@RequestParam("noteId")Integer noteId, @RequestParam("noteTitle")String noteTitle, @RequestParam("noteDescription") String noteDescription, Model model, Authentication authentication){
+    public String addNewNote(@RequestParam(value = "noteId", required = false)Integer noteId, @RequestParam("noteTitle")String noteTitle, @RequestParam("noteDescription") String noteDescription, Model model, Authentication authentication){
         Integer userid = userService.getUserId(authentication.getName());
         note = new Note();
-        System.out.println(noteId);
         note.setNoteTitle(noteTitle.toString());
         note.setNoteDescription(noteDescription.toString());
         note.setUserId(userid);
 
-        if ( note.getNoteTitle() != null || !note.getNoteTitle().equals(" ") || !note.getNoteTitle().equals("")) {
+        if (noteId != null) {
+            note.setNoteId(noteId);
+            noteService.updateNote(note);
+            model.addAttribute("success", "Your changes were successfully saved.");
+        } else if (note.getNoteTitle() != null || !note.getNoteTitle().equals(" ") || !note.getNoteTitle().equals("")) {
             noteService.addNote(note);
             model.addAttribute("success", "Your changes were successfully saved.");
         } else {
@@ -55,4 +56,12 @@ public class NoteController {
         }
         return "result";
     }
+
+    @GetMapping(value = {"/delete/{noteTitle}"})
+    private String deleteNote(@PathVariable(name = "noteTitle") String noteTitle, RedirectAttributes redirectAttributes) {
+        noteService.deleteNote(noteTitle);
+        redirectAttributes.addAttribute("tab", "nav-notes-tab");
+        return "redirect:/home";
+    }
+
 }

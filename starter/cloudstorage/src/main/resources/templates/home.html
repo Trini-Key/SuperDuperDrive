@@ -81,7 +81,7 @@
                                                     th:data-parameter2="${note.getNoteTitle()}"
                                                     th:data-parameter3="${note.getNoteDescription()}"
                                                     th:onclick="showNoteModal(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'), this.getAttribute('data-parameter3'))">Edit</button>
-                                            <a class="btn btn-danger" th:href="@{/note/edit/__*{note.noteTitle}__}">Delete</a>
+                                            <a class="btn btn-danger" th:href="@{/note/delete/__${note.getNoteTitle()}__}">Delete</a>
                                         </td>
                                         <th name="noteName" th:text="*{note.noteTitle}" scope="row">Example Note Title</th>
                                         <td th:text="*{note.noteDescription}">Example Note Description </td>

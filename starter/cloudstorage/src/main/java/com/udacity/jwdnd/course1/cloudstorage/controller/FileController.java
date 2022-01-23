@@ -91,7 +91,6 @@ public class FileController {
     private String deleteFile(@PathVariable(name = "filename") String filename, RedirectAttributes redirectAttributes){
         fileService.deleteFile(filename);
         redirectAttributes.addFlashAttribute("tab", "nav-files-tab");
-        redirectAttributes.addFlashAttribute("success", true);
         return "redirect:/home";
     }
 }

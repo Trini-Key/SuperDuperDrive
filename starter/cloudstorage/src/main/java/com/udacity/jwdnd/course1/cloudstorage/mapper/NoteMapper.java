@@ -16,6 +16,10 @@ public interface NoteMapper {
     @Options(useGeneratedKeys = true, keyProperty = "noteId")
     int insertNote(Note note);
 
+    @Update("UPDATE NOTES SET noteid = #{noteId}, notetitle = #{noteTitle}, notedescription = #{noteDescription}, userid = #{userId}")
+    @Options(keyProperty = "noteId")
+    int updateNote(Note note);
+
     @Select("SELECT notetitle FROM NOTES WHERE userid = #{userId}")
     List<String> getUserNoteTitles(Integer userId);
 

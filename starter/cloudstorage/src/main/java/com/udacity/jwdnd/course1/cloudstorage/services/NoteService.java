@@ -26,6 +26,10 @@ public class NoteService {
         return noteMapper.insertNote(note);
     }
 
+    public int updateNote(Note note) {
+        return noteMapper.updateNote(note);
+    }
+
     public List<String> getNoteHistory(Integer userId) {
         return noteMapper.getUserNoteTitles(userId);
     }
