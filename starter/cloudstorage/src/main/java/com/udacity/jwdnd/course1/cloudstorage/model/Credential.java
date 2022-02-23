@@ -1,5 +1,12 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
+import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
+
+import java.nio.charset.Charset;
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.Random;
+
 public class Credential {
 
     private Integer credentialId;
@@ -9,11 +16,15 @@ public class Credential {
     private String password;
     private Integer userId;
 
-    public Credential(Integer credentialId, String url, String username, String key, String password, Integer userId) {
+    public Credential() {}
+
+    public Credential(Integer credentialId, String url, String username, String password, Integer userId) {
+        byte[] array = new byte[8];
+        new Random().nextBytes(array);
         this.credentialId = credentialId;
         this.url = url;
         this.username = username;
-        this.key = key;
+        this.key = new String(array, Charset.defaultCharset());
         this.password = password;
         this.userId = userId;
     }
@@ -64,5 +75,13 @@ public class Credential {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public void newKey() {
+        byte[] key = new byte[16];
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(key);
+        String encodedKey = Base64.getEncoder().encodeToString(key);
+        this.key = encodedKey;
     }
 }
