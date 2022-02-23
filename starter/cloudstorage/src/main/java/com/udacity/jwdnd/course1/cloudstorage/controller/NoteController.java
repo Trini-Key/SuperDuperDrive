@@ -20,9 +20,6 @@ import java.util.List;
 public class NoteController {
 
     @Autowired
-    private FileService fileService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -30,8 +27,7 @@ public class NoteController {
 
     private Note note;
 
-    public NoteController(FileService fileService, UserService userService, NoteService noteService) {
-        this.fileService = fileService;
+    public NoteController(UserService userService, NoteService noteService) {
         this.userService = userService;
         this.noteService = noteService;
     }
