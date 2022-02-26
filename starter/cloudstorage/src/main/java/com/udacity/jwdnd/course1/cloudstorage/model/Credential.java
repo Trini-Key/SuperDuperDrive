@@ -1,6 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.model;
 
 import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.nio.charset.Charset;
 import java.security.SecureRandom;
@@ -12,9 +13,12 @@ public class Credential {
     private Integer credentialId;
     private String url;
     private String username;
-    private String key;
+    private String salt;
     private String password;
     private Integer userId;
+
+    @Autowired
+    private EncryptionService encryptionService;
 
     public Credential() {}
 
@@ -24,7 +28,7 @@ public class Credential {
         this.credentialId = credentialId;
         this.url = url;
         this.username = username;
-        this.key = new String(array, Charset.defaultCharset());
+        this.salt = new String(array, Charset.defaultCharset());
         this.password = password;
         this.userId = userId;
     }
@@ -53,12 +57,12 @@ public class Credential {
         this.username = username;
     }
 
-    public String getKey() {
-        return key;
+    public String getSalt() {
+        return salt;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getPassword() {
@@ -77,11 +81,11 @@ public class Credential {
         this.userId = userId;
     }
 
-    public void newKey() {
+    public String newKey() {
         byte[] key = new byte[16];
         SecureRandom random = new SecureRandom();
         random.nextBytes(key);
         String encodedKey = Base64.getEncoder().encodeToString(key);
-        this.key = encodedKey;
+        return encodedKey;
     }
 }

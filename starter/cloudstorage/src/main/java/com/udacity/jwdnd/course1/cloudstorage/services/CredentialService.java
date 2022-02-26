@@ -45,7 +45,11 @@ public class CredentialService {
         credentialMapper.deleteCredential(url);
     }
 
-    public Credential getCredential(String url) {
-        return credentialMapper.getCredential(url);
+    public Credential getCredential(String url, String username) {
+        return credentialMapper.getCredential(url, username);
+    }
+
+    public Credential getCredentialById(Integer credentialId) {
+        return credentialMapper.getCredentialById(credentialId);
     }
 }

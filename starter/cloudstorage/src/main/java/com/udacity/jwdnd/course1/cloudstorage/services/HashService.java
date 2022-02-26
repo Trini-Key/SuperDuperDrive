@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.security.NoSuchAlgorithmException;
@@ -30,4 +31,7 @@ public class HashService {
 
         return Base64.getEncoder().encodeToString(hashedValue);
     }
+
+    @PostConstruct
+    public void postConstruct() {System.out.println("Creating HashService Bean"); }
 }

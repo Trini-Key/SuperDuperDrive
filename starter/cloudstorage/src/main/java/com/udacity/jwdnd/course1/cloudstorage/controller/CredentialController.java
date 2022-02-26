@@ -31,7 +31,7 @@ public class CredentialController {
     @Autowired
     private EncryptionService encryptionService;
 
-    private Credential creds;
+    private Credential newCredential;
 
     private String salt;
 
@@ -49,33 +49,34 @@ public class CredentialController {
         User user = userService.getUser(username);
         Integer userid = userService.getUserId(username);
 
-        creds = new Credential();
-        creds.setUrl(credForm.getUrl());
-        creds.setUsername(credForm.getUsername());
-        creds.setUserId(userid);
-        creds.setPassword(credForm.getPassword());
-        Credential updateCred = credentialService.getCredential(creds.getUrl());
+        Credential storedCred = credentialService.getCredentialById(credentialId);
+        newCredential = new Credential();
+        newCredential.setUrl(credForm.getUrl());
+        newCredential.setUsername(credForm.getUsername());
+        newCredential.setUserId(userid);
+
+        List<Credential> credentials = credentialService.getCredentials(userid);
 
         if (credentialId != null) {
-            creds.setCredentialId(credentialId);
-            credentialService.updateCredential(creds);
+            newCredential.setCredentialId(credentialId);
+            newCredential.setPassword(encryptionService.encryptValue(credForm.getPassword(), storedCred.getSalt()));
+            credentialService.updateCredential(newCredential);
             model.addAttribute("success", "Your changes were successfully saved.");
-        } else if (creds.getUrl() != null || !creds.getUrl().equals("")) {
-            creds.newKey();
-            creds.setPassword(encryptionService.encryptValue(credForm.getPassword(), creds.getKey()));
-            credentialService.addCredential(creds);
+        } else if (newCredential.getUrl() != null || !newCredential.getUrl().equals("")) {
+            newCredential.setSalt(newCredential.newKey());
+            newCredential.setPassword(encryptionService.encryptValue(credForm.getPassword(), newCredential.getSalt()));
+            credentialService.addCredential(newCredential);
             model.addAttribute("success", "Your changes were successfully saved.");
         } else {
             model.addAttribute("otherError", "No Credential Chosen. Select a credential and try again.");
         }
-        model.addAttribute("decryptPass", encryptionService.decryptValue(creds.getPassword(), creds.getKey()));
+        model.addAttribute("credentials", credentials);
         return "result";
     }
 
     @GetMapping(value = {"/delete/{url}"})
-    private String deleteCred(@PathVariable(name = "url") String url, RedirectAttributes redirectAttributes) {
+    private String deleteCred(@PathVariable(name = "url") String url) {
         credentialService.deleteCredential(url);
-        redirectAttributes.addAttribute("tab", "nav-credentials-tab");
         return "redirect:/home";
     }
 

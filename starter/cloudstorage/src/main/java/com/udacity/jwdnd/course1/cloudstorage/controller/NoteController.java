@@ -33,7 +33,10 @@ public class NoteController {
     }
 
     @PostMapping
-    public String addNewNote(@RequestParam(value = "noteId", required = false)Integer noteId, @RequestParam("noteTitle")String noteTitle, @RequestParam("noteDescription") String noteDescription, Model model, Authentication authentication){
+    public String addNewNote(@RequestParam(value = "noteId", required = false)Integer noteId,
+                             @RequestParam("noteTitle")String noteTitle,
+                             @RequestParam("noteDescription")String noteDescription,
+                             Model model, Authentication authentication){
         Integer userid = userService.getUserId(authentication.getName());
         note = new Note();
         note.setNoteTitle(noteTitle.toString());
@@ -54,9 +57,8 @@ public class NoteController {
     }
 
     @GetMapping(value = {"/delete/{noteTitle}"})
-    private String deleteNote(@PathVariable(name = "noteTitle") String noteTitle, RedirectAttributes redirectAttributes) {
+    private String deleteNote(@PathVariable(name = "noteTitle") String noteTitle) {
         noteService.deleteNote(noteTitle);
-        redirectAttributes.addAttribute("tab", "nav-notes-tab");
         return "redirect:/home";
     }
 

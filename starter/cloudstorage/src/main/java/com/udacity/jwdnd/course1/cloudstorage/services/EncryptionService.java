@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
@@ -47,4 +48,7 @@ public class EncryptionService {
 
         return new String(decryptedValue);
     }
+
+    @PostConstruct
+    public void postConstruct() {System.out.println("Creating EncryptionService Bean"); }
 }

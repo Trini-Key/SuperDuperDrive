@@ -105,7 +105,6 @@ public class NoteTests {
         Assertions.assertEquals("Your changes were successfully saved. Click here to continue.",
                 driver.findElement(By.xpath("/html/body/div/div[1]/span")).getText());
         resultPage.redirectHome1.click();
-//        driver.get("http://localhost:" + this.port + "/home");
         Assertions.assertEquals("Home", driver.getTitle());
         es.executeScript("arguments[0].click()", homePage.navCredentialsTab);
         wait1.until(ExpectedConditions.visibilityOf(homePage.editCredential));
@@ -125,7 +124,6 @@ public class NoteTests {
         //delete credential
         homePage.deleteCredential.click();
         es.executeScript("arguments[0].click()", homePage.navCredentialsTab);
-        wait1.until(ExpectedConditions.elementToBeClickable(homePage.addCredential)) ;
         Assertions.assertFalse(homePage.checkCredential());
     }
 

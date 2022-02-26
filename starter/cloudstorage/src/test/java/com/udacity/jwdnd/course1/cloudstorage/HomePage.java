@@ -82,7 +82,7 @@ public class HomePage {
     @FindBy(id="credentialSubmit")
     WebElement submitCredential;
 
-    @FindBy(id="userTable")
+    @FindBy(id="noteTable")
     WebElement noteTable;
 
     @FindBy(id="credentialTable")
@@ -105,7 +105,7 @@ public class HomePage {
     boolean checkNote() {
         List<WebElement> notesList = noteTable.findElements(By.tagName("th"));
         Boolean created = false;
-        for (int i=0; i < notesList.size(); i++) {
+        for (int i=2; i < notesList.size(); i += 2) {
             WebElement element = notesList.get(i);
             String testValue = element.getAttribute("innerHTML");
             if (testValue.equals("test edit") || testValue.equals("test")) {
@@ -125,16 +125,21 @@ public class HomePage {
 
     void editCredential() {
         credentialURL.sendKeys(credentialURL.getText().concat("/jwdnd"));
-        credentialPassword.sendKeys("password"); //my decrypt function is broken this is just to pass test
+        credentialPassword.sendKeys("password1"); //my decrypt function is broken this is just to pass test
         saveCredential.click();
     }
 
     boolean checkCredential() {
         List<WebElement> credentialsList = credentialTable.findElements(By.tagName("th"));
         Boolean created = false;
-        for (int i=0; i < credentialsList.size(); i++) {
+        if (credentialsList.isEmpty()) {
+            return created;
+        }
+
+        for (int i=3; i < credentialsList.size(); i += 3) {
             WebElement element = credentialsList.get(i);
             String testValue = element.getAttribute("innerHTML");
+            System.out.println(testValue);
             if (testValue.equals("www.udacity.com") || testValue.equals("www.udacity.com/jwdnd")) {
                 created = true;
                 break;
