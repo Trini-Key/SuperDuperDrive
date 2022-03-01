@@ -81,7 +81,8 @@
                                                     th:data-parameter2="${note.getNoteTitle()}"
                                                     th:data-parameter3="${note.getNoteDescription()}"
                                                     th:onclick="showNoteModal(this.getAttribute('data-parameter1'), this.getAttribute('data-parameter2'), this.getAttribute('data-parameter3'))">Edit</button>
-                                            <a id="delete-note" class="btn btn-danger" th:href="@{/note/delete/__${note.getNoteTitle()}__}">Delete</a>
+                                            <a id="delete-note" class="btn btn-danger"
+                                               th:href="@{/note/delete/__${note.getNoteTitle()}__}">Delete</a>
                                         </td>
                                         <th name="noteName" th:text="*{note.noteTitle}" scope="row">Example Note Title</th>
                                         <td th:text="*{note.noteDescription}">Example Note Description </td>
@@ -150,7 +151,8 @@
                                                     this.getAttribute('data-credential-username'),
                                                     this.getAttribute('data-credential-password')
                                                     )">Edit</button>
-                                            <a id="delete-credential" class="btn btn-danger" th:href="@{/credential/delete/__${cred}__}">Delete</a>
+                                            <a id="delete-credential" class="btn btn-danger"
+                                               th:href="@{/credential/delete/__${cred.getUrl()}__}">Delete</a>
                                         </td>
                                         <th name="credUrl" th:text="*{cred.url}" scope="row">Example Credential URL</th>
                                         <td th:text="*{cred.username}" >Example Credential Username</td>

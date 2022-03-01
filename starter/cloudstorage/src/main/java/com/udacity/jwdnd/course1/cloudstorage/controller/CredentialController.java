@@ -60,6 +60,7 @@ public class CredentialController {
         if (credentialId != null) {
             newCredential.setCredentialId(credentialId);
             newCredential.setPassword(encryptionService.encryptValue(credForm.getPassword(), storedCred.getSalt()));
+            newCredential.setSalt(storedCred.getSalt());
             credentialService.updateCredential(newCredential);
             model.addAttribute("success", "Your changes were successfully saved.");
         } else if (newCredential.getUrl() != null || !newCredential.getUrl().equals("")) {
